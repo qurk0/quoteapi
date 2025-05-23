@@ -48,7 +48,7 @@ func (handler *QuoteHandler) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	responce := handler.repo.createQuote(payload)
+	responce := handler.repo.CreateQuote(payload)
 	resp.Json(w, responce, http.StatusOK)
 	return
 }
@@ -64,13 +64,13 @@ func (handler *QuoteHandler) GetQuote(w http.ResponseWriter, r *http.Request) {
 }
 
 func (handler *QuoteHandler) GetAll(w http.ResponseWriter, r *http.Request) {
-	responce := handler.repo.getAllQuotes()
+	responce := handler.repo.GetAllQuotes()
 	resp.Json(w, responce, http.StatusOK)
 }
 
 func (handler *QuoteHandler) GetRand() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		responce, err := handler.repo.getRandomQuote()
+		responce, err := handler.repo.GetRandomQuote()
 		if err != nil {
 			resp.Json(w, responce, http.StatusInternalServerError)
 		}
@@ -85,7 +85,7 @@ func (handler *QuoteHandler) GetFiltered(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	responce := handler.repo.getAuthorQuotes(author)
+	responce := handler.repo.GetAuthorQuotes(author)
 	if responce == nil {
 		resp.Json(w, "У данного автора нет цитат", http.StatusNotFound)
 		return
@@ -102,7 +102,7 @@ func (handler *QuoteHandler) Delete() http.HandlerFunc {
 			resp.Json(w, "Неверно указан ID", http.StatusBadRequest)
 			return
 		}
-		err = handler.repo.deleteQuote(uint(id))
+		err = handler.repo.DeleteQuote(uint(id))
 		if err != nil {
 			resp.Json(w, "Цитата не найдена", http.StatusNotFound)
 			return

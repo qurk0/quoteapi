@@ -21,7 +21,7 @@ func NewQuoteRepository() *QuotesRepository {
 	}
 }
 
-func (qd *QuotesRepository) createQuote(q QuoteCreateRequest) Quote {
+func (qd *QuotesRepository) CreateQuote(q QuoteCreateRequest) Quote {
 	createdQuote := Quote{
 		ID:     ID,
 		Author: q.Author,
@@ -35,7 +35,7 @@ func (qd *QuotesRepository) createQuote(q QuoteCreateRequest) Quote {
 	return createdQuote
 }
 
-func (qd QuotesRepository) getAllQuotes() []Quote {
+func (qd QuotesRepository) GetAllQuotes() []Quote {
 	result := make([]Quote, 0)
 	// Идем по всем авторам, опуская имя автора как ключ, так как оно есть в структуре цитат
 	for _, value := range qd.quotes {
@@ -47,7 +47,7 @@ func (qd QuotesRepository) getAllQuotes() []Quote {
 	return result
 }
 
-func (qd QuotesRepository) getRandomQuote() (Quote, error) {
+func (qd QuotesRepository) GetRandomQuote() (Quote, error) {
 	// Выбрали случайного автора
 	randomAuthorNumber, err := rand.Int(rand.Reader, big.NewInt(int64(len(qd.authors))))
 	if err != nil {
@@ -64,11 +64,11 @@ func (qd QuotesRepository) getRandomQuote() (Quote, error) {
 
 }
 
-func (qd QuotesRepository) getAuthorQuotes(author string) []Quote {
+func (qd QuotesRepository) GetAuthorQuotes(author string) []Quote {
 	return qd.quotes[author]
 }
 
-func (qd *QuotesRepository) deleteQuote(id uint) error {
+func (qd *QuotesRepository) DeleteQuote(id uint) error {
 	for _, author := range qd.authors {
 		for idx, quote := range qd.quotes[author] {
 			if quote.ID == id {
